@@ -4,15 +4,19 @@
 }
 :root {
   --headfont: "Futura-Bold", sans-serif;
-  --headfont_color: rgb(255, 255, 255);
   --textfont: Helvetica, sans-serif;
+  --headfont_color: rgb(255, 255, 255);
   --textfont_color: rgb(255, 255, 255);
   --finished_color: rgb(183, 183, 183);
+  --bg_color: linear-gradient(0deg, rgb(32, 21, 63) 0%, rgb(79, 157, 231) 100%);
+  --button_background_color: rgba(0, 0, 0, 0.3);
+  --button_font_color: #ffffff;
+  --button_hover_color_edit_add: #ffcc00;
+  --button_hover_color_delete_clear: #ff4b4b;
   --margin_tasks: 5px;
   --margin_clearAll: 10px;
   --padding_task: 15px;
   --padding_finished_task: 45px;
-  --bg_color: linear-gradient(0deg, rgb(32, 21, 63) 0%, rgb(79, 157, 231) 100%);
 }
 html {
   height: 100%;
@@ -80,8 +84,8 @@ h1 {
 }
 button {
   margin-left: 5px;
-  background-color: rgba(0, 0, 0, 0.3);
-  color: #ffffff;
+  background-color: var(--button_background_color);
+  color: var(--button_font_color);
   border: none;
   border-radius: 8px;
   padding-left: 10px;
@@ -90,12 +94,15 @@ button {
   padding-bottom: 5px;
   /* box-shadow: 0px 0px 2px 0px rgb(0, 0, 0); */
 }
-button:active {
-  background-color: #ffbf00;
-}
 button:hover {
-  background-color: #ffcc00;
-  transition: 0.7s;
+  background-color: var(--button_hover_color_edit_add);
+  transition: 0.5s;
+}
+.clearAll:hover,
+.deleteButton:hover,
+.donedeleteButton:hover {
+  background-color: var(--button_hover_color_delete_clear);
+  transition: 0.5s;
 }
 input,
 textarea {

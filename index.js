@@ -1,6 +1,3 @@
-// function deleteFromQueue(){
-//     target.parentNode.remove()
-// }
 function createDone(text){
     const body = document.body;
     const doneContainer = document.createElement("div");
@@ -56,7 +53,6 @@ function deleteDone(){
        if (target.className == "donedeleteButton") {
         localStorage.removeItem(target.parentNode.children[0].innerText)
         target.parentNode.remove()
-        // console.log("Delete finished")
        }
     })
 }
@@ -65,17 +61,13 @@ localStorage.removeItem("--ml-is-active")
 
 document.addEventListener("DOMContentLoaded",()=>{
     for (const [key,value] of Object.entries(localStorage)){
-        // console.log(key,value)
         if (value == "false") {
             addTask(key)
-            // console.log(key,"OFFEN")  
         }
         if (value == "true" && document.querySelector(".Done")){
             addFinished(key)
-            // console.log(key,"ERLEDIGT!")   
         }else if(value == "true"){
             createDone(key)
-            // console.log(key,"DONE Angelegt")
         }
 }})
 
