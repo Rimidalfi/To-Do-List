@@ -1,48 +1,38 @@
+const docBody = document.body;
+const toDoContainer = document.querySelector(".toDo");
+
+function newElement(eTag,eClassName,eInnerText="",eType="",eId=""){
+    const element = document.createElement(eTag);
+    element.className = eClassName;
+    element.id = eId;
+    element.innerText = eInnerText;
+    element.type = eType;
+    return element;
+  }
 function createDone(text){
-    const body = document.body;
-    const doneContainer = document.createElement("div");
-    const headLine = document.createElement("h1");
-    const clearALL = document.createElement("button")
-    clearALL.className ="clearAll"
-    clearALL.innerText ="CLEAR LIST"
-    headLine.innerText = "Done";
-    doneContainer.className = "Done";
-    body.append(doneContainer);
+    const doneContainer = newElement("div","Done");
+    const headLine = newElement("h1","toDoh1","Done")
+    const clearALL = newElement("button","clearAll","CLEAR LIST")
+    docBody.append(doneContainer);
     doneContainer.append(headLine);
-    body.append(clearALL)
+    docBody.append(clearALL)
     addFinished(text)
 }
 function addFinished(text){
-    const doneSection = document.createElement("section");
-    const doneTask = document.createElement("p");
-    const doneDeleteButton = document.createElement("button");
     const doneContainer = document.querySelector(".Done")
-    doneSection.className ="finished"
-    doneTask.className = "finishedtask"
-    doneTask.innerText = text
-    doneDeleteButton.className = "donedeleteButton"
-    doneDeleteButton.innerText = "DELETE"
+    const doneSection = newElement("section","finished");
+    const doneTask = newElement("p","finishedtask",text);
+    const doneDeleteButton = newElement("button","donedeleteButton","DELETE");
     doneContainer.append(doneSection)
     doneSection.append(doneTask,doneDeleteButton)
 }
 function addTask(description){
-    const toDoContainer = document.querySelector(".toDo");
-    const newSection = document.createElement("section");
-    const newCheckBox = document.createElement("input");
-    const newTask = document.createElement("p");
-    const editButton = document.createElement("button");
-    const deleteButton = document.createElement("button");
-    const buttonContainer = document.createElement("div");
-    buttonContainer.className = "buttonContainer"
-    newSection.className ="queue"
-    newCheckBox.type = "radio"
-    newCheckBox.className = "checkbox"
-    newTask.className = "task"
-    newTask.innerText = description
-    editButton.className = "editButton"
-    editButton.innerText = "EDIT"
-    deleteButton.className = "deleteButton"
-    deleteButton.innerText = "DELETE"
+    const newSection = newElement("section","queue");
+    const newCheckBox = newElement("input","checkbox","","radio");
+    const newTask = newElement("p","task",description);
+    const buttonContainer = newElement("div","buttonContainer");
+    const editButton = newElement("button","editButton","EDIT");
+    const deleteButton = newElement("button","deleteButton","DELETE");
     toDoContainer.append(newSection)
     buttonContainer.append(editButton,deleteButton)
     newSection.append(newCheckBox,newTask,buttonContainer)
@@ -56,10 +46,9 @@ function deleteDone(){
        }
     })
 }
-
-localStorage.removeItem("--ml-is-active")
-
+//LOAD LOCAL STORAGE
 document.addEventListener("DOMContentLoaded",()=>{
+    localStorage.removeItem("--ml-is-active")
     for (const [key,value] of Object.entries(localStorage)){
         if (value == "false") {
             addTask(key)
@@ -70,7 +59,6 @@ document.addEventListener("DOMContentLoaded",()=>{
             createDone(key)
         }
 }})
-
 //ADD
 const textInput = document.querySelector(".taskInput")
 const addButton = document.querySelector(".addButton")
@@ -79,7 +67,6 @@ addButton.addEventListener("click",()=>{
     localStorage.setItem((textInput.value.trim()),"false");
     textInput.value = "";
 })
-
 document.querySelector(".toDo").addEventListener("click", function(event) {
     const target = event.target;
     //CHECKBOX
@@ -100,31 +87,23 @@ document.querySelector(".toDo").addEventListener("click", function(event) {
     //EDIT
     if (target.className == "editButton"){
         const currentText = target.parentNode.parentNode.children[1].innerText
-        localStorage.removeItem(currentText)
-        const newInput = document.createElement("input");
         const currentTask = target.parentNode.parentNode.children[1];
+        const newInput = newElement("input","editTask");
         currentTask.replaceWith(newInput);
         newInput.value = currentText
-        newInput.className = "editTask"
-        const saveButton = document.createElement("button");
+        const saveButton = newElement("button","saveButton","SAVE");
         target.replaceWith(saveButton);
-        saveButton.className ="saveButton";
-        saveButton.innerText = "SAVE";
+        localStorage.removeItem(currentText)
     }
     //SAVE
     if (target.className == "saveButton"){
         const currentInput = target.parentNode.parentNode.children[1]
-        let newText = target.parentNode.parentNode.children[1].value;
-        newText = newText.trim()
-        localStorage.setItem(newText,"false") 
-        const editedText = document.createElement("p");
-        const newEditButton = document.createElement("button");
+        let newText = target.parentNode.parentNode.children[1].value.trim();
+        const editedText = newElement("p","task",newText);
+        const newEditButton = newElement("button","editButton","EDIT");
         currentInput.replaceWith(editedText);
-        editedText.innerText =newText;
-        editedText.className = "task";
         target.replaceWith(newEditButton);
-        newEditButton.className = "editButton";
-        newEditButton.innerText = "EDIT";
+        localStorage.setItem(newText,"false") 
     }
     //DELETE
     if (target.className == "deleteButton") {
@@ -132,13 +111,12 @@ document.querySelector(".toDo").addEventListener("click", function(event) {
         target.parentNode.parentNode.remove()
     }
 });
-
+//DELETE DONE
 document.body.addEventListener("click",()=>{
     document.querySelector(".Done") ? deleteDone() : null
 })
-//CLEAR ALL
+// CLEAR ALL
 document.body.addEventListener("click",(e)=>{
-
     if (e.target.className == "clearAll") {
         localStorage.clear()
         location.reload();
