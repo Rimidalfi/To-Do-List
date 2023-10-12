@@ -1,6 +1,6 @@
-function deleteFromQueue(){
-    target.parentNode.remove()
-}
+// function deleteFromQueue(){
+//     target.parentNode.remove()
+// }
 function createDone(text){
     const body = document.body;
     const doneContainer = document.createElement("div");
@@ -47,6 +47,16 @@ function addTask(description){
     toDoContainer.append(newSection)
     newSection.append(newCheckBox,newTask,editButton,deleteButton)
 }
+function deleteDone(){
+    document.querySelector(".Done").addEventListener("click",(e)=>{
+       const target = e.target;
+       if (target.className == "donedeleteButton") {
+        localStorage.removeItem(target.parentNode.children[0].innerText)
+        target.parentNode.remove()
+        console.log("Delete finished")
+       }
+    })
+}
 
 localStorage.removeItem("--ml-is-active")
 
@@ -66,41 +76,15 @@ document.addEventListener("DOMContentLoaded",()=>{
         }
 }})
 
-
-
-// console.log(localStorage)
-// localStorage.setItem("key","value")
-// console.log(localStorage.getItem("key"))
-// localStorage.removeItem("Stulle")
-// console.log(localStorage)
-// localStorage.setItem("Stulle","Käse")
-// localStorage.setItem("Einkaufen",false)
-// localStorage.setItem("Codewars",true)
-// console.log(localStorage)
-// localStorage.clear()
-// console.log(localStorage)
-
-
-// const textInput = document.querySelector(".taskInput")
-// const addButton = document.querySelector(".addButton")
-// addButton.addEventListener("click",()=>{
-//     console.log(textInput.value);
-//     addTask(textInput.value);
-//     textInput.value = "";
-// })
-
+//ADD
 const textInput = document.querySelector(".taskInput")
 const addButton = document.querySelector(".addButton")
 addButton.addEventListener("click",()=>{
-    addTask(textInput.value);
+    addTask(textInput.value.trim());
+    console.log(textInput.value.trim())
     localStorage.setItem((textInput.value.trim()),"false");
     textInput.value = "";
 })
-
-
-
-
-
 
 document.querySelector(".toDo").addEventListener("click", function(event) {
     const target = event.target;
@@ -109,7 +93,10 @@ document.querySelector(".toDo").addEventListener("click", function(event) {
         console.log("Task finished");
         console.log(target.parentNode.children[1].innerText);
         const currentText = target.parentNode.children[1].innerText;
+        console.log(typeof(currentText))
+        console.log("ACHTUNG!",currentText)
         currentText.trim()
+        console.log(currentText)
         localStorage.removeItem(currentText)
         localStorage.setItem(currentText,"true")
         if (document.querySelector(".Done")){
@@ -124,32 +111,35 @@ document.querySelector(".toDo").addEventListener("click", function(event) {
     //EDIT
     if (target.className == "editButton"){
         console.log("Edit Task");
-        console.log(target.parentNode.children[1].innerText);
+        // console.log(target.parentNode.children[1].innerText);
         const currentText = target.parentNode.children[1].innerText
-        currentText.trim()
+        // const editCheckbox = target.parentNode.children[0]
+        // console.log("CHECKKK:",editCheckbox.style.display)
+        // currentText.trim()
         localStorage.removeItem(currentText)
         const newInput = document.createElement("input");
         const currentTask = target.parentNode.children[1];
         currentTask.replaceWith(newInput);
         newInput.value = currentText
+        newInput.className = "editTask"
 
         const saveButton = document.createElement("button");
         target.replaceWith(saveButton);
         saveButton.className ="saveButton";
         saveButton.innerText = "SAVE";
-        console.log(saveButton);
+        // console.log(saveButton);
     }
     //SAVE
     if (target.className == "saveButton"){
         console.log("save Task")
         const currentInput = target.parentNode.children[1]
-        const newText = target.parentNode.children[1].value;
-        newText.trim()
+        let newText = target.parentNode.children[1].value;
+        newText = newText.trim()
         console.log(newText)
         localStorage.setItem(newText,"false") 
         const editedText = document.createElement("p");
         const newEditButton = document.createElement("button");
-
+        console.log("WERT Gespeichert:", newText)
         currentInput.replaceWith(editedText);
         editedText.innerText =newText;
         editedText.className = "task";
@@ -166,20 +156,10 @@ document.querySelector(".toDo").addEventListener("click", function(event) {
     }
 });
 
-function deleteDone(){
-    document.querySelector(".Done").addEventListener("click",(e)=>{
-       const target = e.target;
-       if (target.className == "donedeleteButton") {
-        localStorage.removeItem(target.parentNode.children[0].innerText)
-        target.parentNode.remove()
-        console.log("Delete finished")
-       }
-    })
-}
 document.body.addEventListener("click",()=>{
     document.querySelector(".Done") ? deleteDone() : null
 })
-
+//CLEAR ALL
 document.body.addEventListener("click",(e)=>{
     // console.log(e)
     if (e.target.className == "clearAll") {
@@ -188,19 +168,3 @@ document.body.addEventListener("click",(e)=>{
         location.reload();
        }
 })
-// if (document.querySelector(".Done")){
-//     console.log("YAHOOOOOOOOOOO")
-//     document.querySelector(".Done").addEventListener("click", function(event) {
-//         const target = event.target;
-//         // const delButton = document.querySelector(".deleteButton")
-//         // const edBtn = document.querySelector(".editButton")
-//         // const checker = document.querySelector(".checkbox")
-    
-//         if (target.className == "donedeleteButton") {
-//             console.log("Delete finished")
-//             // target.parentNode.remove()
-//             // console.log(target.parentNode)
-//             // console.log("Task deleted");
-//         }
-//     });
-// }

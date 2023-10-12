@@ -1,0 +1,80 @@
+@font-face {
+  font-family: "Futura-Bold";
+  src: local("./fonts/Futura-Bold.woff") format("woff");
+}
+:root {
+  --headfont: "Futura-Bold", sans-serif;
+  --headfont_color: rgb(255, 255, 255);
+  --textfont: Helvetica, sans-serif;
+  --textfont_color: rgb(0, 0, 0);
+  --finished_color: rgb(138, 138, 138);
+  --margin_tasks: 5px;
+  --margin_clearAll: 10px;
+  --padding_task: 30px;
+  --padding_finished_task: 45px;
+  --bg_color: linear-gradient(
+    0deg,
+    rgb(77, 66, 109) 0%,
+    rgb(220, 220, 220) 100%
+  );
+}
+body {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  /* align-items: center; */
+  margin: 50px auto;
+  margin: 0;
+  padding: 0;
+  /* height: 100vh; */
+  background: var(--bg_color);
+  background-repeat: no-repeat;
+  font-family: var(--textfont);
+}
+.toDo,
+.Done {
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+}
+.addItem {
+  display: flex;
+  justify-content: center;
+  /* background-color: blue; */
+  margin: var(--margin_tasks);
+}
+.queue {
+  display: flex;
+  justify-content: space-between;
+  /* background-color: blue; */
+  margin: var(--margin_tasks);
+}
+.finished {
+  display: flex;
+  justify-content: space-between;
+  /* background-color: blue; */
+  margin: var(--margin_tasks);
+}
+.task {
+  padding-left: var(--padding_task);
+  background-color: rgb(151, 165, 42);
+  /* padding-right: var(--padding_task); */
+}
+.finishedtask {
+  text-decoration: line-through;
+  padding-left: var(--padding_finished_task);
+  background-color: brown;
+  text-align: left;
+  /* color: var(--finished_color); */
+}
+h1 {
+  font-family: var(--headfont);
+  color: var(--headfont_color);
+  text-align: center;
+}
+.clearAll {
+  margin: var(--margin_clearAll);
+}
+button {
+  margin: var(--margin_clearAll);
+}
